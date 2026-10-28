@@ -1,10 +1,14 @@
 /**
- * سامانه نوبت‌دهی آنلاین آرایشگاه آرسس (Pure Vanilla JavaScript)
- * بدون وابستگی به فریم‌ورک | تقویم شمسی با Intl.DateTimeFormat | ذخیره‌سازی در localStorage
+ * ============================================================================
+ * 💈 Arses Luxury Barbershop — Online Booking System (سامانه نوبت‌دهی آنلاین آرایشگاه)
+ * ✨ Designed & Developed by: Abolfazl Shaghaghi (ابوالفضل شقاقی)
+ * 🌐 Website & Portfolio: https://shaghaghidev.ir
+ * 🛠 Pure Vanilla JavaScript | Intl.DateTimeFormat Jalali Calendar | localStorage
+ * ============================================================================
  */
 
 // ============================================================================
-// ۱. داده‌های پایه (خدمات، آرایشگران، ساعت‌های کاری)
+// ۱. داده‌های پایه (خدمات با آیکون و بج اختصاصی، آرایشگران، ساعت‌های کاری)
 // ============================================================================
 
 const SERVICES = [
@@ -14,6 +18,8 @@ const SERVICES = [
     duration: 45,
     price: 350000,
     desc: 'کوتاهی مدرن، فید دقیق دور سر و شستشو',
+    icon: '✂️',
+    tag: 'پرطرفدار',
   },
   {
     id: 'beard-grooming',
@@ -21,6 +27,8 @@ const SERVICES = [
     duration: 30,
     price: 220000,
     desc: 'تنظیم و قرینه‌سازی ریش با تیغ و حوله گرم',
+    icon: '🪒',
+    tag: 'کلاسیک',
   },
   {
     id: 'hair-styling',
@@ -28,20 +36,26 @@ const SERVICES = [
     duration: 25,
     price: 180000,
     desc: 'شستشوی تقویتی، براشینگ و حالت‌دهی',
+    icon: '✨',
+    tag: '',
   },
   {
     id: 'facial-care',
     name: 'پاکسازی پوست و ماسک زغال',
     duration: 45,
     price: 450000,
-    desc: 'لایه برداری، بخور گرم و ماسک شاداب‌کننده',
+    desc: 'لایه‌برداری، بخور گرم و ماسک شاداب‌کننده',
+    icon: '🧖‍♂️',
+    tag: 'ویژه',
   },
   {
     id: 'vip-package',
-    name: 'پکیج کامل VIP (مو + ریش + پاکسازی)',
+    name: 'پکیج کامل VIP (مو + ریش + فیشیال)',
     duration: 90,
     price: 950000,
     desc: 'سرویس کامل پیرایش داماد و VIP بدون معطلی',
+    icon: '👑',
+    tag: 'VIP طلایی',
   },
 ];
 
@@ -55,19 +69,19 @@ const STYLISTS = [
   {
     id: 'reza',
     name: 'رضا فرهمند',
-    role: 'مستر فید و استایل کلاسیک',
+    role: 'مستر فید و استایل کلاسیک · ★ ۴.۹',
     badge: 'ر',
   },
   {
     id: 'farhad',
     name: 'فرهاد کاظمی',
-    role: 'طراح مو و کوتاهی مدرن',
+    role: 'طراح مو و کوتاهی مدرن · ★ ۴.۸',
     badge: 'ف',
   },
   {
     id: 'amir',
     name: 'امیر شاهی',
-    role: 'متخصص ریش و گریم داماد',
+    role: 'متخصص ریش و گریم داماد · ★ ۴.۹',
     badge: 'ا',
   },
 ];
@@ -119,23 +133,13 @@ function formatDuration(mins) {
   return `${toPersianDigits(mins)} دقیقه`;
 }
 
-/** کلید یکتای تاریخ میلادی به صورت YYYY-MM-DD برای مقایسه دقیق */
+/** کلید یکتای تاریخ میلادی به صورت YYYY-MM-DD */
 function toIsoDateKey(dateObj) {
   const y = dateObj.getFullYear();
   const m = String(dateObj.getMonth() + 1).padStart(2, '0');
   const d = String(dateObj.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
-
-/**
- * استخراج اجزای تاریخ شمسی با استفاده از استاندارد Intl.DateTimeFormat('fa-IR-u-ca-persian')
- */
-const persianFullFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-});
 
 const persianPartsFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
   weekday: 'long',
@@ -181,7 +185,7 @@ function getJalaliInfo(dateObj) {
 
   const isToday = today.getTime() === target.getTime();
   const isPast = target.getTime() < today.getTime();
-  const isFriday = dateObj.getDay() === 5; // جمعه در جاوااسکریپت برابر ۵ است
+  const isFriday = dateObj.getDay() === 5;
 
   return {
     isoKey: toIsoDateKey(dateObj),
@@ -215,10 +219,9 @@ function getNext14Days() {
   return list;
 }
 
-/** تولید روزهای یک ماه شمسی مشخص (بر اساس سال و ماه شمسی) */
+/** تولید روزهای یک ماه شمسی مشخص */
 function getDaysOfJalaliMonth(targetJy, targetJm) {
   const days = [];
-  // جستجو در بازه نزدیک برای یافتن تمام روزهای ماه شمسی مورد نظر
   const now = new Date();
   now.setHours(0, 0, 0, 0);
   const startSearch = new Date(now);
@@ -243,13 +246,14 @@ const next14Days = getNext14Days();
 const firstOpenDay = next14Days.find((d) => !d.isFriday) || next14Days[0];
 
 const state = {
-  selectedServiceIds: [SERVICES[0].id], // پیش‌فرض اولین خدمت انتخاب شده
-  selectedStylistId: 'any', // پیش‌فرض "اولین آرایشگر خالی"
+  selectedServiceIds: [SERVICES[0].id],
+  selectedStylistId: 'any',
   selectedDateInfo: firstOpenDay,
   selectedTimeSlot: '11:00',
   calYear: firstOpenDay.jy,
   calMonth: firstOpenDay.jm,
   isMonthCalOpen: false,
+  activeStepHighlight: 1,
   lastCreatedBooking: null,
 };
 
@@ -264,7 +268,6 @@ function loadBookings() {
     console.error('Error reading bookings:', e);
   }
 
-  // ایجاد ۲ نوبت نمونه روی اولین روز باز برای نمایش سانس‌های «رزرو شده»
   const seedBookings = [
     {
       id: 'seed-101',
@@ -288,7 +291,7 @@ function loadBookings() {
       customerName: 'سهراب محمدی',
       customerPhone: '09351112233',
       serviceIds: ['vip-package'],
-      serviceNames: ['پکیج کامل VIP (مو + ریش + پاکسازی)'],
+      serviceNames: ['پکیج کامل VIP (مو + ریش + فیشیال)'],
       stylistId: 'farhad',
       stylistName: 'فرهاد کاظمی',
       isoDate: firstOpenDay.isoKey,
@@ -317,7 +320,6 @@ function isTimeSlotBooked(isoDate, timeSlot, selectedStylistId) {
   const bookings = loadBookings();
   const realStylistIds = ['reza', 'farhad', 'amir'];
 
-  // بررسی اینکه چقدر زمان نیاز داریم (اگر بیش از ۶۰ دقیقه باشد، سانس بعدی هم چک می‌شود)
   const totalMins = getSelectedServices().reduce((sum, s) => sum + s.duration, 0);
   const slotIndex = TIME_SLOTS.indexOf(timeSlot);
   const slotsNeeded = totalMins > 60 ? 2 : 1;
@@ -325,12 +327,11 @@ function isTimeSlotBooked(isoDate, timeSlot, selectedStylistId) {
   const targetSlots = [];
   for (let i = 0; i < slotsNeeded; i++) {
     const s = TIME_SLOTS[slotIndex + i];
-    if (!s) return true; // خارج از ساعت کاری سالن
+    if (!s) return true;
     targetSlots.push(s);
   }
 
   if (selectedStylistId !== 'any') {
-    // بررسی تداخل برای آرایشگر مشخص‌شده
     return bookings.some(
       (b) =>
         b.isoDate === isoDate &&
@@ -338,7 +339,6 @@ function isTimeSlotBooked(isoDate, timeSlot, selectedStylistId) {
         targetSlots.includes(b.timeSlot)
     );
   } else {
-    // در حالت "اولین آرایشگر خالی": فقط زمانی پر است که هر ۳ آرایشگر در آن ساعت پر باشند
     const busyCount = realStylistIds.filter((stId) =>
       bookings.some(
         (b) =>
@@ -367,10 +367,29 @@ function renderAll() {
   renderMonthCalendar();
   renderTimeSlots();
   renderSummaryAndRecap();
+  renderProgressIndicator();
   renderMyBookingsBadge();
 }
 
-/** گام ۱ (بخش اول): رندر لیست خدمات */
+/** بروزرسانی نوار پیشرفت انیمیشنی */
+function renderProgressIndicator() {
+  const s1 = document.getElementById('stepIndicator1');
+  const s2 = document.getElementById('stepIndicator2');
+  const s3 = document.getElementById('stepIndicator3');
+  const fill = document.getElementById('animatedProgressFill');
+
+  const step = state.activeStepHighlight;
+  if (s1) s1.classList.toggle('active', step >= 1);
+  if (s2) s2.classList.toggle('active', step >= 2);
+  if (s3) s3.classList.toggle('active', step >= 3);
+
+  if (fill) {
+    const percent = step === 1 ? 35 : step === 2 ? 70 : 100;
+    fill.style.width = `${percent}%`;
+  }
+}
+
+/** گام ۱ (بخش اول): رندر لیست خدمات با آیکون و بج اختصاصی */
 function renderServices() {
   const grid = document.getElementById('servicesGrid');
   const summaryEl = document.getElementById('selectedServicesSummary');
@@ -391,25 +410,29 @@ function renderServices() {
         aria-pressed="${isSelected}"
       >
         <div class="service-card-left">
-          <div class="check-box" aria-hidden="true">${isSelected ? '✓' : ''}</div>
+          <div class="service-icon-badge" aria-hidden="true">${service.icon}</div>
           <div class="service-info">
-            <div class="service-name">${service.name}</div>
+            <div class="service-title-row">
+              <span class="service-name">${service.name}</span>
+              ${service.tag ? `<span class="service-tag">${service.tag}</span>` : ''}
+            </div>
             <div class="service-meta">${service.desc} · ${formatDuration(service.duration)}</div>
           </div>
         </div>
-        <div class="service-price">${formatPrice(service.price)}</div>
+        <div class="service-right">
+          <div class="check-box" aria-hidden="true">${isSelected ? '✓' : ''}</div>
+          <div class="service-price">${formatPrice(service.price)}</div>
+        </div>
       </button>
     `;
   }).join('');
 
-  // اتصال رویداد کلیک به کارت‌های خدمت
   grid.querySelectorAll('.service-card').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-service-id');
       const exists = state.selectedServiceIds.includes(id);
 
       if (exists) {
-        // حداقل یک خدمت باید انتخاب شده بماند
         if (state.selectedServiceIds.length > 1) {
           state.selectedServiceIds = state.selectedServiceIds.filter((item) => item !== id);
         }
@@ -417,6 +440,7 @@ function renderServices() {
         state.selectedServiceIds.push(id);
       }
 
+      state.activeStepHighlight = 1;
       ensureValidTimeSlot();
       renderAll();
     });
@@ -453,6 +477,7 @@ function renderStylists() {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-stylist-id');
       state.selectedStylistId = id;
+      state.activeStepHighlight = 2;
       ensureValidTimeSlot();
       renderAll();
     });
@@ -469,7 +494,6 @@ function renderDateStrip() {
     labelEl.textContent = `تاریخ انتخابی: ${state.selectedDateInfo.fullWithYear}`;
   }
 
-  // اگر کاربر از تقویم ماهانه روزی خارج از ۱۴ روز آینده انتخاب کرده باشد، آن را هم نمایش دهیم
   const isCustomDateIn14 = next14Days.some(
     (d) => d.isoKey === state.selectedDateInfo.isoKey
   );
@@ -512,6 +536,7 @@ function renderDateStrip() {
         state.selectedDateInfo = found;
         state.calYear = found.jy;
         state.calMonth = found.jm;
+        state.activeStepHighlight = 2;
         ensureValidTimeSlot();
         renderAll();
       }
@@ -519,7 +544,7 @@ function renderDateStrip() {
   });
 }
 
-/** گام ۲ (بخش تقویم ماهانه شمسی): رندر ساده تقویم کامل ماه */
+/** گام ۲ (بخش تقویم ماهانه شمسی) */
 function renderMonthCalendar() {
   const box = document.getElementById('monthCalendarBox');
   const titleEl = document.getElementById('calMonthTitle');
@@ -534,7 +559,6 @@ function renderMonthCalendar() {
 
   titleEl.textContent = `${monthDays[0].month} ${monthDays[0].year}`;
 
-  // محاسبه روز هفته اولین روز ماه (شنبه = 0 ... جمعه = 6)
   const firstJsDay = monthDays[0].dateObj.getDay();
   const offset = (firstJsDay + 1) % 7;
 
@@ -565,9 +589,10 @@ function renderMonthCalendar() {
     btn.addEventListener('click', () => {
       const iso = btn.getAttribute('data-cal-iso');
       const chosen = monthDays.find((d) => d.isoKey === iso);
-      if (chosen && !chosen.isDisabled) {
+      if (chosen && !chosen.isPast && !chosen.isFriday) {
         state.selectedDateInfo = chosen;
         state.isMonthCalOpen = false;
+        state.activeStepHighlight = 2;
         ensureValidTimeSlot();
         renderAll();
       }
@@ -605,12 +630,13 @@ function renderTimeSlots() {
     btn.addEventListener('click', () => {
       const slot = btn.getAttribute('data-slot');
       state.selectedTimeSlot = slot;
+      state.activeStepHighlight = 3;
       renderAll();
     });
   });
 }
 
-/** اطمینان از اینکه ساعت انتخابی فعلی پر نباشد؛ در صورت پر بودن، اولین ساعت آزاد انتخاب شود */
+/** اطمینان از اینکه ساعت انتخابی فعلی پر نباشد */
 function ensureValidTimeSlot() {
   const isoDate = state.selectedDateInfo.isoKey;
   if (
@@ -667,7 +693,29 @@ function renderSummaryAndRecap() {
   }
 }
 
-/** رندر رسید نهایی نوبت (Confirmation Ticket) */
+/** جشن کانفتی طلایی هنگام صدور رسید VIP */
+function triggerConfettiCelebration() {
+  const container = document.getElementById('confettiContainer');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const colors = ['#F59E0B', '#FBBF24', '#D97706', '#FEF3C7', '#10B981'];
+  for (let i = 0; i < 36; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.backgroundColor = colors[i % colors.length];
+    piece.style.animationDelay = `${Math.random() * 0.45}s`;
+    piece.style.animationDuration = `${2.1 + Math.random() * 1.1}s`;
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => {
+    container.innerHTML = '';
+  }, 3600);
+}
+
+/** رندر کارت طلایی VIP رسید نوبت همراه با واترمارک shaghaghidev.ir */
 function renderTicketView(booking) {
   const card = document.getElementById('printableTicketCard');
   if (!card || !booking) return;
@@ -675,14 +723,17 @@ function renderTicketView(booking) {
   card.innerHTML = `
     <div class="ticket-top">
       <div>
-        <div class="brand-title">پیرایش مردانه آرسس</div>
-        <div class="brand-subtitle">تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</div>
+        <span class="vip-badge-crown">👑 VIP GOLDEN TICKET</span>
+        <div class="ticket-salon-title">پیرایش لوکس آرسس</div>
+        <div class="ticket-salon-sub">تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</div>
       </div>
       <div class="ticket-code-box">
-        <span class="ticket-code-label">کد پیگیری نوبت</span>
-        <span class="ticket-code-value">${booking.code}</span>
+        <span class="ticket-code-label">کد رهگیری اختصاصی</span>
+        <span class="ticket-code-value">BRB-${booking.code}</span>
       </div>
     </div>
+
+    <div class="ticket-perforation-line" aria-hidden="true"></div>
 
     <div class="ticket-rows">
       <div class="ticket-row">
@@ -690,11 +741,11 @@ function renderTicketView(booking) {
         <span class="ticket-row-val">${booking.customerName}</span>
       </div>
       <div class="ticket-row">
-        <span class="ticket-row-label">شماره تماس:</span>
+        <span class="ticket-row-label">شماره موبایل:</span>
         <span class="ticket-row-val" dir="ltr">${toPersianDigits(booking.customerPhone)}</span>
       </div>
       <div class="ticket-row">
-        <span class="ticket-row-label">تاریخ مراجعه:</span>
+        <span class="ticket-row-label">تاریخ مراجعه (شمسی):</span>
         <span class="ticket-row-val">${booking.dateLabel}</span>
       </div>
       <div class="ticket-row">
@@ -702,11 +753,11 @@ function renderTicketView(booking) {
         <span class="ticket-row-val">${toPersianDigits(booking.timeSlot)}</span>
       </div>
       <div class="ticket-row">
-        <span class="ticket-row-label">آرایشگر:</span>
+        <span class="ticket-row-label">استایلیست و آرایشگر:</span>
         <span class="ticket-row-val">${booking.stylistName}</span>
       </div>
       <div class="ticket-row">
-        <span class="ticket-row-label">خدمات انتخابی:</span>
+        <span class="ticket-row-label">خدمات رزرو شده:</span>
         <span class="ticket-row-val">${booking.serviceNames.join('، ')}</span>
       </div>
       <div class="ticket-row">
@@ -718,6 +769,13 @@ function renderTicketView(booking) {
     <div class="ticket-total-row">
       <span>مبلغ قابل پرداخت در سالن:</span>
       <span class="ticket-total-val">${formatPrice(booking.totalPrice)}</span>
+    </div>
+
+    <div class="ticket-watermark">
+      <span>رسید رسمی سامانه نوبت‌دهی آنلاین</span>
+      <span dir="ltr">
+        Powered by <a href="https://shaghaghidev.ir" target="_blank" rel="noopener noreferrer">shaghaghidev.ir</a>
+      </span>
     </div>
   `;
 }
@@ -746,7 +804,7 @@ function renderMyBookingsList() {
           <div class="booking-item-date">
             ${b.dateLabel} — ساعت ${toPersianDigits(b.timeSlot)}
           </div>
-          <span class="booking-item-code">کد پیگیری: ${b.code}</span>
+          <span class="booking-item-code">کد پیگیری: BRB-${b.code}</span>
         </div>
 
         <div class="booking-item-details">
@@ -764,7 +822,7 @@ function renderMyBookingsList() {
             class="btn-outline-sm view-ticket-btn"
             data-booking-id="${b.id}"
           >
-            مشاهده و چاپ رسید
+            🎫 مشاهده کارت VIP
           </button>
           <button
             type="button"
@@ -779,7 +837,6 @@ function renderMyBookingsList() {
     )
     .join('');
 
-  // دکمه مشاهده رسید
   container.querySelectorAll('.view-ticket-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-booking-id');
@@ -792,7 +849,6 @@ function renderMyBookingsList() {
     });
   });
 
-  // دکمه لغو نوبت با یک کلیک
   container.querySelectorAll('.btn-cancel-booking').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-cancel-id');
@@ -845,7 +901,6 @@ function switchActiveView(viewName) {
 }
 
 function initEvents() {
-  // سوئیچ تب‌های بالای صفحه
   document.getElementById('tabBookingBtn')?.addEventListener('click', () => {
     switchActiveView('booking');
   });
@@ -888,13 +943,22 @@ function initEvents() {
     renderMonthCalendar();
   });
 
-  // ثبت نهایی نوبت در ۵ ثانیه (بدون پاپ‌آپ اضافه)
+  // ثبت نهایی نوبت در ۵ ثانیه
   const form = document.getElementById('confirmBookingForm');
   const nameInput = document.getElementById('customerNameInput');
   const phoneInput = document.getElementById('customerPhoneInput');
   const errorEl = document.getElementById('formErrorMsg');
 
-  // نمایش ارقام فارسی هنگام تایپ شماره موبایل
+  phoneInput?.addEventListener('focus', () => {
+    state.activeStepHighlight = 3;
+    renderProgressIndicator();
+  });
+
+  nameInput?.addEventListener('focus', () => {
+    state.activeStepHighlight = 3;
+    renderProgressIndicator();
+  });
+
   phoneInput?.addEventListener('input', (e) => {
     const raw = toEnglishDigits(e.target.value).replace(/[^\d]/g, '');
     e.target.value = toPersianDigits(raw);
@@ -928,7 +992,6 @@ function initEvents() {
       return;
     }
 
-    // تخصیص خودکار آرایشگر در حالت "اولین آرایشگر خالی"
     let finalStylistId = state.selectedStylistId;
     if (finalStylistId === 'any') {
       const realIds = ['reza', 'farhad', 'amir'];
@@ -973,6 +1036,7 @@ function initEvents() {
     renderAll();
     renderTicketView(newBooking);
     switchActiveView('ticket');
+    triggerConfettiCelebration();
   });
 
   function showError(msg) {
@@ -994,7 +1058,28 @@ function initEvents() {
     switchActiveView('booking');
   });
 
-  // دکمه تغییر تم روشن / تیره
+  // دکمه تغییر تم روشن / تیره (پیش‌فرض روی تم لوکس تیره، با قابلیت تغییر به تم کرم روشن)
   const themeBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeToggleIcon');
   const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
+  if (savedTheme === 'light') {
+    document.body.classList.remove('dark-theme');
+    if (themeIcon) themeIcon.textContent = '🌙';
+  } else {
+    document.body.classList.add('dark-theme');
+    if (themeIcon) themeIcon.textContent = '☀️';
+  }
+
+  themeBtn?.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-theme');
+    if (themeIcon) themeIcon.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem(STORAGE_KEY_THEME, isDark ? 'dark' : 'light');
+  });
+}
+
+// راه‌اندازی اولیه
+document.addEventListener('DOMContentLoaded', () => {
+  ensureValidTimeSlot();
+  initEvents();
+  renderAll();
+});
