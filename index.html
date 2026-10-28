@@ -1,22 +1,14 @@
-<!--
-  ============================================================================
-  💈 Arses Luxury Barbershop — Online Booking System (سامانه نوبت‌دهی آنلاین آرایشگاه)
-  ✨ Designed & Developed by: Abolfazl Shaghaghi (ابوالفضل شقاقی)
-  🌐 Website & Portfolio: https://shaghaghidev.ir
-  🛠 Tech Stack: Pure HTML5, Modern CSS3 (Glassmorphism), Vanilla JavaScript
-  ============================================================================
--->
 <!doctype html>
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0F1015" />
+    <meta name="theme-color" content="#121214" />
     <meta name="author" content="Abolfazl Shaghaghi - shaghaghidev.ir" />
     <title>سامانه نوبت‌دهی آنلاین آرایشگاه | Barbershop Booking</title>
     <meta
       name="description"
-      content="سامانه نوبت‌دهی آنلاین آرایشگاه و پیرایش مردانه با تقویم شمسی جلالی، انتخاب هوشمند سانس، پیگیری و لغو نوبت. طراحی توسط ابوالفضل شقاقی (shaghaghidev.ir)."
+      content="سامانه نوبت‌دهی آنلاین آرایشگاه و پیرایش مردانه با تقویم شمسی جلالی، انتخاب هوشمند سانس، پیگیری و لغو نوبت."
     />
     <meta property="og:title" content="سامانه نوبت‌دهی آنلاین آرایشگاه | Barbershop Booking" />
     <meta
@@ -30,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -38,47 +30,23 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body class="dark-theme">
-    <!-- Ambient Glowing Background Auras -->
-    <div class="ambient-bg no-print" aria-hidden="true">
-      <div class="aura aura-gold"></div>
-      <div class="aura aura-amber"></div>
-      <div class="aura aura-warm"></div>
-    </div>
-
-    <!-- Celebratory Confetti Canvas Container -->
-    <div id="confettiContainer" class="confetti-container no-print" aria-hidden="true"></div>
-
-    <!-- Top Glass Header & Navigation -->
+    <!-- Top Header & Navigation -->
     <header class="site-header no-print">
       <div class="container header-inner">
-        <div class="brand-group">
-          <div class="brand" id="brandHomeBtn" role="button" tabindex="0">
-            <div class="brand-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="6" cy="6" r="3"></circle>
-                <circle cx="6" cy="18" r="3"></circle>
-                <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
-                <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-                <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <div>
-              <h1 class="brand-title">پیرایش لوکس آرسس</h1>
-              <p class="brand-subtitle">رزرو آنلاین VIP بدون معطلی</p>
-            </div>
+        <div class="brand" id="brandHomeBtn" role="button" tabindex="0">
+          <div class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+              <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+            </svg>
           </div>
-
-          <!-- Subtle Classy Designer Pill Badge in Header -->
-          <a
-            href="https://shaghaghidev.ir"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="header-designer-pill"
-            title="مشاهده وب‌سایت طراح: ابوالفضل شقاقی"
-          >
-            <span class="designer-dot" aria-hidden="true">✦</span>
-            <span dir="ltr">Designed by shaghaghidev.ir</span>
-          </a>
+          <div>
+            <h1 class="brand-title">پیرایش مردانه آرسس</h1>
+            <p class="brand-subtitle">رزرو آنلاین نوبت بدون معطلی</p>
+          </div>
         </div>
 
         <div class="header-actions">
@@ -93,7 +61,7 @@
             </button>
           </nav>
 
-          <!-- Theme Toggle (Luxury Dark / Soft Cream Light) -->
+          <!-- Theme Toggle (Dark / Light) -->
           <button
             type="button"
             class="theme-toggle-btn"
@@ -111,23 +79,21 @@
     <main class="container main-content">
       <!-- ==================== VIEW 1: 3-STEP BOOKING FLOW ==================== -->
       <div id="bookingView" class="view-transition">
-        <!-- Luxury Hero & Salon Info Glass Banner -->
-        <section class="salon-banner glass-panel no-print" aria-label="اطلاعات آرایشگاه">
+        <!-- Salon Info Banner -->
+        <section class="salon-banner no-print" aria-label="اطلاعات آرایشگاه">
           <div class="salon-banner-item">
-            <span class="banner-icon" aria-hidden="true">🕒</span>
             <span class="banner-label">ساعت کاری:</span>
             <span class="banner-value">شنبه تا پنج‌شنبه، ۱۰:۰۰ تا ۲۱:۰۰ (جمعه‌ها تعطیل)</span>
           </div>
-          <span class="banner-sep" aria-hidden="true">•</span>
+          <span class="banner-sep" aria-hidden="true">·</span>
           <div class="salon-banner-item">
-            <span class="banner-icon" aria-hidden="true">📍</span>
             <span class="banner-label">نشانی:</span>
             <span class="banner-value">تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</span>
           </div>
         </section>
 
-        <!-- Sleek Animated Step Progress Bar -->
-        <div class="steps-overview glass-panel no-print" aria-label="مراحل رزرو">
+        <!-- Step Progress Bar -->
+        <div class="steps-overview no-print" aria-label="مراحل رزرو">
           <div class="steps-track">
             <a href="#step-1" class="step-pill active" id="stepIndicator1">
               <span class="step-num">۱</span>
@@ -150,9 +116,9 @@
         </div>
 
         <!-- STEP 1: WHAT & WHO (انتخاب خدمت و آرایشگر) -->
-        <section id="step-1" class="step-card glass-panel no-print">
+        <section id="step-1" class="step-card no-print">
           <div class="step-header">
-            <div class="step-badge">✦ گام اول</div>
+            <div class="step-badge">گام اول</div>
             <h2 class="step-title">۱. انتخاب خدمت و آرایشگر</h2>
             <p class="step-desc">خدمات دلخواه خود را انتخاب کنید؛ امکان انتخاب همزمان چند سرویس وجود دارد.</p>
           </div>
@@ -160,7 +126,7 @@
           <!-- Services List -->
           <div class="sub-section">
             <div class="sub-header">
-              <h3 class="sub-title">لیست خدمات تخصصی</h3>
+              <h3 class="sub-title">لیست خدمات</h3>
               <span class="selection-summary" id="selectedServicesSummary">۱ خدمت انتخاب شده</span>
             </div>
             <div class="services-grid" id="servicesGrid">
@@ -171,7 +137,7 @@
           <!-- Stylists List -->
           <div class="sub-section">
             <div class="sub-header">
-              <h3 class="sub-title">انتخاب استایلیست و آرایشگر</h3>
+              <h3 class="sub-title">انتخاب آرایشگر</h3>
               <span class="sub-hint">پیش‌فرض روی سریع‌ترین نوبت خالی تنظیم شده است</span>
             </div>
             <div class="stylists-grid" id="stylistsGrid">
@@ -181,9 +147,9 @@
         </section>
 
         <!-- STEP 2: WHEN (تقویم شمسی و ساعت) -->
-        <section id="step-2" class="step-card glass-panel no-print">
+        <section id="step-2" class="step-card no-print">
           <div class="step-header">
-            <div class="step-badge">✦ گام دوم</div>
+            <div class="step-badge">گام دوم</div>
             <h2 class="step-title">۲. انتخاب تاریخ شمسی و ساعت حضور</h2>
             <p class="step-desc">روز مراجعه و ساعت دلخواه خود را از بین سانس‌های آزاد انتخاب نمایید.</p>
           </div>
@@ -193,7 +159,7 @@
             <div class="sub-header">
               <h3 class="sub-title" id="selectedDateLabel">تاریخ مراجعه</h3>
               <button type="button" class="btn-outline-sm" id="toggleMonthCalBtn">
-                <span>📅 تقویم کامل ماهانه</span>
+                <span>تقویم ماهانه</span>
               </button>
             </div>
 
@@ -245,11 +211,11 @@
         </section>
 
         <!-- STEP 3: INSTANT CONFIRM (تایید نهایی در ۵ ثانیه) -->
-        <section id="step-3" class="step-card glass-panel no-print">
+        <section id="step-3" class="step-card no-print">
           <div class="step-header">
-            <div class="step-badge">✦ گام سوم · ثبت آنی</div>
+            <div class="step-badge">گام سوم · ثبت آنی</div>
             <h2 class="step-title">۳. تایید نهایی در ۵ ثانیه</h2>
-            <p class="step-desc">نام و شماره موبایل خود را وارد کنید تا بلیط طلایی نوبت شما فوراً صادر شود.</p>
+            <p class="step-desc">نام و شماره موبایل خود را وارد کنید تا رسید نوبت شما فوراً صادر شود.</p>
           </div>
 
           <!-- Live Booking Recap Bar -->
@@ -289,35 +255,31 @@
             <p class="form-error hidden" id="formErrorMsg" role="alert"></p>
 
             <button type="submit" class="btn-primary-submit" id="submitBookingBtn">
-              <span>ثبت نهایی نوبت و دریافت کارت VIP</span>
+              <span>ثبت نهایی نوبت و دریافت رسید</span>
               <span class="submit-price-tag" id="submitBtnPriceTag"></span>
             </button>
           </form>
         </section>
       </div>
 
-      <!-- ==================== VIEW 2: LUXURY VIP GOLDEN TICKET ==================== -->
+      <!-- ==================== VIEW 2: BOOKING RECEIPT ==================== -->
       <section id="ticketView" class="ticket-section hidden view-transition" aria-live="polite">
         <div class="ticket-success-banner no-print">
-          <div class="glowing-checkmark-wrap">
-            <div class="glowing-checkmark-ring"></div>
-            <div class="success-check-icon">✓</div>
-          </div>
-          <h2 class="ticket-heading">نوبت VIP شما با موفقیت ثبت شد!</h2>
-          <p class="ticket-subheading">کارت طلایی زیر رسید رسمی نوبت شماست؛ می‌توانید از آن عکس بگیرید یا چاپ کنید.</p>
+          <div class="success-check-icon">✓</div>
+          <h2 class="ticket-heading">نوبت شما با موفقیت ثبت شد</h2>
+          <p class="ticket-subheading">رسید زیر را هنگام مراجعه همراه داشته باشید یا از آن عکس بگیرید.</p>
         </div>
 
-        <!-- Luxury VIP Golden Ticket with Perforated Edges & Shine Effect -->
-        <div class="vip-golden-ticket" id="printableTicketCard">
+        <div class="ticket-card" id="printableTicketCard">
           <!-- Populated by app.js -->
         </div>
 
         <div class="ticket-actions no-print">
           <button type="button" class="btn-secondary" id="printTicketBtn">
-            🖨 چاپ / ذخیره تصویر رسید
+            چاپ / ذخیره تصویر رسید
           </button>
           <button type="button" class="btn-secondary" id="goToMyBookingsBtn">
-            📋 مشاهده در نوبت‌های من
+            مشاهده در نوبت‌های من
           </button>
           <button type="button" class="btn-primary" id="bookAnotherBtn">
             + رزرو نوبت جدید
@@ -327,7 +289,7 @@
 
       <!-- ==================== VIEW 3: MY BOOKINGS (نوبت‌های من) ==================== -->
       <section id="myBookingsView" class="my-bookings-section hidden view-transition no-print">
-        <div class="step-card glass-panel">
+        <div class="step-card">
           <div class="my-bookings-header">
             <div>
               <h2 class="step-title">نوبت‌های ثبت‌شده من</h2>
@@ -358,25 +320,18 @@
       </div>
     </aside>
 
-    <!-- Stylish Footer with Designer Signature Badge -->
+    <!-- Minimalist Footer -->
     <footer class="site-footer no-print">
       <div class="container footer-inner">
         <div class="footer-salon-info">
-          <span>پیرایش لوکس آرسس · تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</span>
-          <span class="footer-dot" aria-hidden="true">•</span>
+          <span>پیرایش مردانه آرسس · تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</span>
+          <span class="footer-dot" aria-hidden="true">·</span>
           <span dir="ltr">۰۲۱ - ۲۲۴۰۰۸۹۰</span>
         </div>
 
-        <!-- Designer Credit Signature Badge -->
-        <a
-          href="https://shaghaghidev.ir"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="developer-signature-badge"
-        >
-          <span>طراحی و توسعه با ❤️ توسط ابوالفضل شقاقی | Abolfazl Shaghaghi</span>
-          <span class="signature-link-pill" dir="ltr">shaghaghidev.ir ↗</span>
-        </a>
+        <p class="footer-credit">
+          طراحی و توسعه توسط <a href="https://shaghaghidev.ir" target="_blank" rel="noopener noreferrer">ابوالفضل شقاقی</a>
+        </p>
       </div>
     </footer>
 
