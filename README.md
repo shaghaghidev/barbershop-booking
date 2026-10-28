@@ -1,25 +1,43 @@
-# سامانه نوبت‌دهی آنلاین آرایشگاه (Pure Vanilla HTML5, CSS3 & JS)
+# 💈 Arses Luxury Barbershop
 
-نسخه فوق‌ساده، سریع و بدون وابستگی (Zero-Framework) سامانه نوبت‌دهی آنلاین آرایشگاه مردانه، نوشته‌شده صرفاً با **HTML5، CSS3 و Vanilla JavaScript** قابل آپلود مستقیم روی هر هاست استاندارد وب.
+A modern, responsive barbershop booking platform built with **HTML, CSS, and Vanilla JavaScript**, featuring a premium UI and an interactive appointment scheduling experience.
 
----
+**[🌐 Live Demo](https://shaghaghidev.ir/showcase/barbershop-booking/)**
 
-## ✨ ویژگی‌های کلیدی
+## ✨ Features
 
-1. **بدون فریم‌ورک (Pure Vanilla Stack):**
-   - تنها ۳ فایل اصلی: `index.html`، `style.css` و `app.js`.
-   - قابل اجرا و آپلود مستقیم روی هر هاست اشتراکی (cPanel, DirectAdmin, Apache, Nginx, GitHub Pages) بدون نیاز به سرور Node.js.
+- Multi-step appointment booking flow
+- Service and barber selection
+- Persian (Jalali) calendar and time-slot scheduling
+- Dynamic pricing and booking summaries
+- Appointment management and printable receipts
+- Dark and light themes
+- Responsive design for desktop and mobile
+- Local data persistence using `localStorage`
 
-2. **طراحی مینیمال، خلوت و موبایل‌محور (Ultra-Simple UX):**
-   - فونت فارسی **وزیرمتن (`Vazirmatn`)** و چینش کامل راست‌به‌چپ (`dir="rtl"`).
-   - تم پیش‌فرض کرم/روشن ملایم با کنتراست بالا + کلید تغییر فوری به تم تیره مدرن.
-   - ابعاد استاندارد لمسی (حداقل `48px` ارتفاع برای تمام دکمه‌ها، کارت‌ها و ساعت‌ها).
-   - نمایش ۱۰۰٪ اعداد، قیمت‌ها و ساعت‌ها با ارقام فارسی (`۰-۹`).
+## 🛠️ Tech Stack
 
-3. **فرآیند رزرو ۳ گامی بدون اصطکاک:**
-   - **گام ۱ (خدمت و آرایشگر):** انتخاب یک یا چند خدمت و آرایشگر در یک نگاه (پیش‌فرض روی *«اولین آرایشگر خالی»* برای رزرو فوری).
-   - **گام ۲ (تقویم شمسی و ساعت):** نوار ۱۴ روز آینده با استفاده از `Intl.DateTimeFormat('fa-IR-u-ca-persian')` + تقویم ماهانه شمسی ساده و دکمه‌های بزرگ ساعت حضور (نمایش خودکار ساعت‌های `رزرو شده`).
-   - **گام ۳ (تایید نهایی در ۵ ثانیه):** فقط نام و شماره موبایل بدون پاپ‌آپ‌های پیچیده و صدور فوری رسید قابل چاپ.
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Web Storage API
+- `Intl.DateTimeFormat` for Persian calendar formatting
 
-4. **بخش «نوبت‌های من» (`localStorage`):**
-   - مشاهده لیست نوبت‌های ثبت‌شده از تب بالای صفحه و لغو نوبت تنها با یک کلیک (آزاد شدن فوری ساعت در تقویم).
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/shaghaghidev/barbershop-booking.git
+cd barbershop-booking
+```
+
+Open `index.html` in your browser. No dependencies or build tools required.
+
+## ⚠️ Note
+
+This is a front-end demonstration project. Bookings are stored locally in the browser and are not synchronized across users or devices.
+
+## 👨‍💻 Author
+
+**Abolfazl Shaghaghi**
+
+[Portfolio](https://shaghaghidev.ir) · [GitHub](https://github.com/shaghaghidev)
