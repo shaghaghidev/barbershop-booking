@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FAF8F5" />
+    <title>سامانه نوبت‌دهی آنلاین آرایشگاه | Barbershop Booking</title>
+    <meta
+      name="description"
+      content="سامانه نوبت‌دهی آنلاین آرایشگاه و پیرایش مردانه با تقویم شمسی جلالی، انتخاب هوشمند سانس، پیگیری و لغو نوبت."
+    />
+    <meta property="og:title" content="سامانه نوبت‌دهی آنلاین آرایشگاه | Barbershop Booking" />
+    <meta
+      property="og:description"
+      content="سامانه نوبت‌دهی آنلاین آرایشگاه و پیرایش مردانه با تقویم شمسی جلالی، انتخاب هوشمند سانس، پیگیری و لغو نوبت."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Vazirmatn Persian Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Pure CSS Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Top Header & Navigation Toggle -->
+    <header class="site-header no-print">
+      <div class="container header-inner">
+        <div class="brand" id="brandHomeBtn" role="button" tabindex="0">
+          <div class="brand-icon" aria-hidden="true">✂</div>
+          <div>
+            <h1 class="brand-title">پیرایش مردانه آرسس</h1>
+            <p class="brand-subtitle">نوبت‌دهی آنلاین و سریع بدون معطلی</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <!-- Main View Switcher: Book vs My Bookings -->
+          <nav class="nav-tabs" aria-label="بخش‌های سامانه">
+            <button type="button" class="nav-tab active" id="tabBookingBtn">
+              رزرو نوبت
+            </button>
+            <button type="button" class="nav-tab" id="tabMyBookingsBtn">
+              <span>نوبت‌های من</span>
+              <span class="booking-badge" id="myBookingsCountBadge">۰</span>
+            </button>
+          </nav>
+
+          <!-- Theme Toggle (Soft Cream / Clean Dark) -->
+          <button
+            type="button"
+            class="theme-toggle-btn"
+            id="themeToggleBtn"
+            aria-label="تغییر تم روشن یا تیره"
+            title="تغییر تم روشن / تیره"
+          >
+            <span id="themeToggleIcon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container main-content">
+      <!-- ==================== VIEW 1: 3-STEP BOOKING FLOW ==================== -->
+      <div id="bookingView">
+        <!-- Quick Salon Info Banner -->
+        <section class="salon-banner no-print" aria-label="اطلاعات آرایشگاه">
+          <div class="salon-banner-item">
+            <span class="banner-label">ساعت کاری:</span>
+            <span class="banner-value">شنبه تا پنج‌شنبه، ۱۰:۰۰ تا ۲۱:۰۰ (جمعه‌ها تعطیل)</span>
+          </div>
+          <span class="banner-sep" aria-hidden="true">·</span>
+          <div class="salon-banner-item">
+            <span class="banner-label">نشانی:</span>
+            <span class="banner-value">تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</span>
+          </div>
+        </section>
+
+        <!-- Step Progress Strip -->
+        <div class="steps-overview no-print" aria-label="مراحل رزرو">
+          <a href="#step-1" class="step-pill active" id="stepIndicator1">
+            <span class="step-num">۱</span>
+            <span>خدمت و آرایشگر</span>
+          </a>
+          <span class="step-arrow" aria-hidden="true">←</span>
+          <a href="#step-2" class="step-pill" id="stepIndicator2">
+            <span class="step-num">۲</span>
+            <span>تاریخ و ساعت</span>
+          </a>
+          <span class="step-arrow" aria-hidden="true">←</span>
+          <a href="#step-3" class="step-pill" id="stepIndicator3">
+            <span class="step-num">۳</span>
+            <span>تایید نهایی</span>
+          </a>
+        </div>
+
+        <!-- STEP 1: WHAT & WHO (انتخاب خدمت و آرایشگر) -->
+        <section id="step-1" class="step-card no-print">
+          <div class="step-header">
+            <div class="step-badge">گام اول</div>
+            <h2 class="step-title">۱. انتخاب خدمت و آرایشگر</h2>
+            <p class="step-desc">خدمات مورد نظر خود را انتخاب کنید (امکان انتخاب یک یا چند خدمت).</p>
+          </div>
+
+          <!-- Services List -->
+          <div class="sub-section">
+            <div class="sub-header">
+              <h3 class="sub-title">انتخاب خدمات</h3>
+              <span class="selection-summary" id="selectedServicesSummary">۱ خدمت انتخاب شده</span>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+
+          <!-- Stylists List -->
+          <div class="sub-section">
+            <div class="sub-header">
+              <h3 class="sub-title">انتخاب آرایشگر</h3>
+              <span class="sub-hint">پیش‌فرض روی سریع‌ترین نوبت تنظیم شده است</span>
+            </div>
+            <div class="stylists-grid" id="stylistsGrid">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2: WHEN (تقویم شمسی و ساعت) -->
+        <section id="step-2" class="step-card no-print">
+          <div class="step-header">
+            <div class="step-badge">گام دوم</div>
+            <h2 class="step-title">۲. انتخاب تاریخ شمسی و ساعت</h2>
+            <p class="step-desc">روز مراجعه و ساعت دلخواه خود را از بین نوبت‌های خالی انتخاب کنید.</p>
+          </div>
+
+          <!-- Date Strip Header + Full Month Calendar Toggle -->
+          <div class="sub-section">
+            <div class="sub-header">
+              <h3 class="sub-title" id="selectedDateLabel">تاریخ مراجعه</h3>
+              <button type="button" class="btn-outline-sm" id="toggleMonthCalBtn">
+                <span>📅 تقویم ماهانه</span>
+              </button>
+            </div>
+
+            <!-- Collapsible Simple Monthly Jalali Calendar Picker -->
+            <div class="month-calendar-box hidden" id="monthCalendarBox">
+              <div class="month-cal-header">
+                <button type="button" class="cal-nav-btn" id="calPrevMonthBtn" aria-label="ماه قبل">
+                  → ماه قبل
+                </button>
+                <strong class="cal-month-title" id="calMonthTitle">آبان ۱۴۰۵</strong>
+                <button type="button" class="cal-nav-btn" id="calNextMonthBtn" aria-label="ماه بعد">
+                  ماه بعد ←
+                </button>
+              </div>
+              <div class="cal-weekdays">
+                <span>ش</span>
+                <span>ی</span>
+                <span>د</span>
+                <span>س</span>
+                <span>چ</span>
+                <span>پ</span>
+                <span class="friday-label">ج</span>
+              </div>
+              <div class="cal-days-grid" id="calDaysGrid">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+
+            <!-- 14-Day Horizontal Date Strip -->
+            <div class="date-strip" id="dateStrip" role="listbox" aria-label="۱۴ روز آینده">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+
+          <!-- Time Slots -->
+          <div class="sub-section">
+            <div class="sub-header">
+              <h3 class="sub-title">انتخاب ساعت حضور</h3>
+              <div class="slot-legend">
+                <span class="legend-item"><i class="dot dot-free"></i> قابل رزرو</span>
+                <span class="legend-item"><i class="dot dot-selected"></i> انتخاب شما</span>
+                <span class="legend-item"><i class="dot dot-booked"></i> رزرو شده</span>
+              </div>
+            </div>
+            <div class="time-slots-grid" id="timeSlotsGrid">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3: INSTANT CONFIRM (تایید نهایی در ۵ ثانیه) -->
+        <section id="step-3" class="step-card no-print">
+          <div class="step-header">
+            <div class="step-badge">گام سوم · پایانی</div>
+            <h2 class="step-title">۳. تایید نهایی در ۵ ثانیه</h2>
+            <p class="step-desc">نام و شماره موبایل خود را وارد کنید تا نوبت شما بلافاصله ثبت شود.</p>
+          </div>
+
+          <!-- Live Booking Recap Bar -->
+          <div class="booking-recap-box" id="liveBookingRecap">
+            <!-- Populated by app.js -->
+          </div>
+
+          <form id="confirmBookingForm" class="confirm-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="customerNameInput" class="form-label">نام و نام خانوادگی</label>
+                <input
+                  type="text"
+                  id="customerNameInput"
+                  class="form-input"
+                  placeholder="مثلاً: علی رضایی"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="customerPhoneInput" class="form-label">شماره موبایل</label>
+                <input
+                  type="tel"
+                  id="customerPhoneInput"
+                  class="form-input ltr-input"
+                  placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  maxlength="11"
+                  required
+                />
+              </div>
+            </div>
+
+            <p class="form-error hidden" id="formErrorMsg" role="alert"></p>
+
+            <button type="submit" class="btn-primary-submit" id="submitBookingBtn">
+              <span>ثبت نهایی نوبت و دریافت رسید</span>
+              <span class="submit-price-tag" id="submitBtnPriceTag"></span>
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <!-- ==================== VIEW 2: INSTANT CONFIRMATION TICKET ==================== -->
+      <section id="ticketView" class="ticket-section hidden" aria-live="polite">
+        <div class="ticket-success-banner no-print">
+          <div class="success-check-icon">✓</div>
+          <h2 class="ticket-heading">نوبت شما با موفقیت ثبت شد!</h2>
+          <p class="ticket-subheading">رسید زیر را هنگام مراجعه همراه داشته باشید یا از آن عکس بگیرید.</p>
+        </div>
+
+        <div class="ticket-card" id="printableTicketCard">
+          <!-- Populated by app.js -->
+        </div>
+
+        <div class="ticket-actions no-print">
+          <button type="button" class="btn-secondary" id="printTicketBtn">
+            🖨 چاپ / ذخیره تصویر رسید
+          </button>
+          <button type="button" class="btn-secondary" id="goToMyBookingsBtn">
+            📋 مشاهده در نوبت‌های من
+          </button>
+          <button type="button" class="btn-primary" id="bookAnotherBtn">
+            + رزرو نوبت جدید
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: MY BOOKINGS (نوبت‌های من) ==================== -->
+      <section id="myBookingsView" class="my-bookings-section hidden no-print">
+        <div class="step-card">
+          <div class="my-bookings-header">
+            <div>
+              <h2 class="step-title">نوبت‌های ثبت‌شده من</h2>
+              <p class="step-desc">لیست نوبت‌های ذخیره شده در مرورگر شما؛ امکان لغو فوری با یک کلیک.</p>
+            </div>
+            <button type="button" class="btn-outline-sm" id="backToBookingBtn">
+              + ثبت نوبت جدید
+            </button>
+          </div>
+
+          <div id="myBookingsList" class="my-bookings-list">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sticky Mobile Bottom Summary Bar -->
+    <aside class="sticky-bottom-bar no-print" id="stickyBottomBar" aria-label="خلاصه نوبت">
+      <div class="container sticky-bar-inner">
+        <div class="sticky-info">
+          <div class="sticky-meta" id="stickyMetaText">۱ خدمت · ۴۵ دقیقه</div>
+          <div class="sticky-price" id="stickyPriceText">۳۵۰,۰۰۰ تومان</div>
+        </div>
+        <a href="#step-3" class="sticky-cta-btn" id="stickyCtaBtn">
+          تکمیل و ثبت نوبت ←
+        </a>
+      </div>
+    </aside>
+
+    <!-- Simple Footer -->
+    <footer class="site-footer no-print">
+      <div class="container footer-inner">
+        <span>پیرایش مردانه آرسس · زعفرانیه، تهران</span>
+        <span>·</span>
+        <span dir="ltr">۰۲۱ - ۲۲۴۰۰۸۹۰</span>
+      </div>
+    </footer>
+
+    <!-- Pure Vanilla JS Application -->
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
