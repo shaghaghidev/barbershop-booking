@@ -1,10 +1,14 @@
 /**
- * سامانه نوبت‌دهی آنلاین آرایشگاه آرسس (Pure Vanilla JavaScript)
- * طراحی و توسعه توسط ابوالفضل شقاقی — https://shaghaghidev.ir
+ * ============================================================================
+ * 💈 Arses Luxury Barbershop — Online Booking System (سامانه نوبت‌دهی آنلاین آرایشگاه)
+ * ✨ Designed & Developed by: Abolfazl Shaghaghi (ابوالفضل شقاقی)
+ * 🌐 Website & Portfolio: https://shaghaghidev.ir
+ * 🛠 Pure Vanilla JavaScript | Intl.DateTimeFormat Jalali Calendar | localStorage
+ * ============================================================================
  */
 
 // ============================================================================
-// ۱. داده‌های پایه (خدمات، آرایشگران، ساعت‌های کاری)
+// ۱. داده‌های پایه (خدمات با آیکون و بج اختصاصی، آرایشگران، ساعت‌های کاری)
 // ============================================================================
 
 const SERVICES = [
@@ -24,7 +28,7 @@ const SERVICES = [
     price: 220000,
     desc: 'تنظیم و قرینه‌سازی ریش با تیغ و حوله گرم',
     icon: '🪒',
-    tag: '',
+    tag: 'کلاسیک',
   },
   {
     id: 'hair-styling',
@@ -42,7 +46,7 @@ const SERVICES = [
     price: 450000,
     desc: 'لایه‌برداری، بخور گرم و ماسک شاداب‌کننده',
     icon: '🧖‍♂️',
-    tag: '',
+    tag: 'ویژه',
   },
   {
     id: 'vip-package',
@@ -51,7 +55,7 @@ const SERVICES = [
     price: 950000,
     desc: 'سرویس کامل پیرایش داماد و VIP بدون معطلی',
     icon: '👑',
-    tag: 'ویژه',
+    tag: 'VIP طلایی',
   },
 ];
 
@@ -65,19 +69,19 @@ const STYLISTS = [
   {
     id: 'reza',
     name: 'رضا فرهمند',
-    role: 'مستر فید و استایل کلاسیک',
+    role: 'مستر فید و استایل کلاسیک · ★ ۴.۹',
     badge: 'ر',
   },
   {
     id: 'farhad',
     name: 'فرهاد کاظمی',
-    role: 'طراح مو و کوتاهی مدرن',
+    role: 'طراح مو و کوتاهی مدرن · ★ ۴.۸',
     badge: 'ف',
   },
   {
     id: 'amir',
     name: 'امیر شاهی',
-    role: 'متخصص ریش و گریم داماد',
+    role: 'متخصص ریش و گریم داماد · ★ ۴.۹',
     badge: 'ا',
   },
 ];
@@ -367,7 +371,7 @@ function renderAll() {
   renderMyBookingsBadge();
 }
 
-/** بروزرسانی نوار پیشرفت */
+/** بروزرسانی نوار پیشرفت انیمیشنی */
 function renderProgressIndicator() {
   const s1 = document.getElementById('stepIndicator1');
   const s2 = document.getElementById('stepIndicator2');
@@ -385,7 +389,7 @@ function renderProgressIndicator() {
   }
 }
 
-/** گام ۱ (بخش اول): رندر لیست خدمات */
+/** گام ۱ (بخش اول): رندر لیست خدمات با آیکون و بج اختصاصی */
 function renderServices() {
   const grid = document.getElementById('servicesGrid');
   const summaryEl = document.getElementById('selectedServicesSummary');
@@ -689,7 +693,29 @@ function renderSummaryAndRecap() {
   }
 }
 
-/** رندر رسید نهایی نوبت */
+/** جشن کانفتی طلایی هنگام صدور رسید VIP */
+function triggerConfettiCelebration() {
+  const container = document.getElementById('confettiContainer');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const colors = ['#F59E0B', '#FBBF24', '#D97706', '#FEF3C7', '#10B981'];
+  for (let i = 0; i < 36; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.backgroundColor = colors[i % colors.length];
+    piece.style.animationDelay = `${Math.random() * 0.45}s`;
+    piece.style.animationDuration = `${2.1 + Math.random() * 1.1}s`;
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => {
+    container.innerHTML = '';
+  }, 3600);
+}
+
+/** رندر کارت طلایی VIP رسید نوبت همراه با واترمارک shaghaghidev.ir */
 function renderTicketView(booking) {
   const card = document.getElementById('printableTicketCard');
   if (!card || !booking) return;
@@ -697,14 +723,17 @@ function renderTicketView(booking) {
   card.innerHTML = `
     <div class="ticket-top">
       <div>
-        <div class="ticket-salon-title">پیرایش مردانه آرسس</div>
+        <span class="vip-badge-crown">👑 VIP GOLDEN TICKET</span>
+        <div class="ticket-salon-title">پیرایش لوکس آرسس</div>
         <div class="ticket-salon-sub">تهران، زعفرانیه، خیابان آصف، پلاک ۲۴</div>
       </div>
       <div class="ticket-code-box">
-        <span class="ticket-code-label">کد رهگیری</span>
-        <span class="ticket-code-value">${booking.code}</span>
+        <span class="ticket-code-label">کد رهگیری اختصاصی</span>
+        <span class="ticket-code-value">BRB-${booking.code}</span>
       </div>
     </div>
+
+    <div class="ticket-perforation-line" aria-hidden="true"></div>
 
     <div class="ticket-rows">
       <div class="ticket-row">
@@ -724,7 +753,7 @@ function renderTicketView(booking) {
         <span class="ticket-row-val">${toPersianDigits(booking.timeSlot)}</span>
       </div>
       <div class="ticket-row">
-        <span class="ticket-row-label">آرایشگر:</span>
+        <span class="ticket-row-label">استایلیست و آرایشگر:</span>
         <span class="ticket-row-val">${booking.stylistName}</span>
       </div>
       <div class="ticket-row">
@@ -740,6 +769,13 @@ function renderTicketView(booking) {
     <div class="ticket-total-row">
       <span>مبلغ قابل پرداخت در سالن:</span>
       <span class="ticket-total-val">${formatPrice(booking.totalPrice)}</span>
+    </div>
+
+    <div class="ticket-watermark">
+      <span>رسید رسمی سامانه نوبت‌دهی آنلاین</span>
+      <span dir="ltr">
+        Powered by <a href="https://shaghaghidev.ir" target="_blank" rel="noopener noreferrer">shaghaghidev.ir</a>
+      </span>
     </div>
   `;
 }
@@ -768,7 +804,7 @@ function renderMyBookingsList() {
           <div class="booking-item-date">
             ${b.dateLabel} — ساعت ${toPersianDigits(b.timeSlot)}
           </div>
-          <span class="booking-item-code">کد پیگیری: ${b.code}</span>
+          <span class="booking-item-code">کد پیگیری: BRB-${b.code}</span>
         </div>
 
         <div class="booking-item-details">
@@ -786,7 +822,7 @@ function renderMyBookingsList() {
             class="btn-outline-sm view-ticket-btn"
             data-booking-id="${b.id}"
           >
-            مشاهده رسید
+            🎫 مشاهده کارت VIP
           </button>
           <button
             type="button"
@@ -1000,6 +1036,7 @@ function initEvents() {
     renderAll();
     renderTicketView(newBooking);
     switchActiveView('ticket');
+    triggerConfettiCelebration();
   });
 
   function showError(msg) {
@@ -1021,7 +1058,7 @@ function initEvents() {
     switchActiveView('booking');
   });
 
-  // دکمه تغییر تم روشن / تیره
+  // دکمه تغییر تم روشن / تیره (پیش‌فرض روی تم لوکس تیره، با قابلیت تغییر به تم کرم روشن)
   const themeBtn = document.getElementById('themeToggleBtn');
   const themeIcon = document.getElementById('themeToggleIcon');
   const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
